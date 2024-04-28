@@ -15,6 +15,7 @@ CREATE TABLE `Inventory` (
   `description` VARCHAR(255),
   `available` BOOL,
   `lendie` VARCHAR(255),
+  `lender` VARCHAR(255),
   `photo` VARCHAR(255),  
   PRIMARY KEY (`itemID`),
   FOREIGN KEY (`locationName`) REFERENCES `pickupLocation`(`locationName`)
