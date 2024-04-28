@@ -15,8 +15,7 @@ CREATE TABLE `Inventory` (
   `description` VARCHAR(255),
   `available` BOOL,
   `lendie` VARCHAR(255),
-  `photo` TYPE,  -- The 'TYPE' here seems to be a placeholder, it needs to be replaced with an actual data type like 'VARCHAR(255)'.
-  `Lender` VARCHAR(255),
+  `photo` VARCHAR(255),  
   PRIMARY KEY (`itemID`),
   FOREIGN KEY (`locationName`) REFERENCES `pickupLocation`(`locationName`)
 );

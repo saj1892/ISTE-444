@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import { fetchData } from './api';
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [locations, setLocations] = useState([]);
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    const handleFetchData = async () => {
+        try {
+            const data = await fetchData();
+            setLocations(data); // Assuming data is an array of location objects
+        } catch (error) {
+            console.error('Failed to fetch data:', error);
+        }
+    };
+
+    return (
+        <div>
+            <h1>React and Node.js Integration Example</h1>
+            <button onClick={handleFetchData}>Fetch Data</button>
+            <div>
+                {locations.length > 0 ? (
+                    locations.map((location, index) => (
+                        <div key={index}>
+                            <h2>{location.locationName}</h2>
+                            <p>Address: {location.Address}</p>
+                            <p>Operating Hours: {location.OperationHours}</p>
+                            <p>Latitude: {location.latitude}</p>
+                            <p>Longitude: {location.longitude}</p>
+                        </div>
+                    ))
+                ) : (
+                    <p>No data found. Click "Fetch Data" to load locations.</p>
+                )}
+            </div>
+        </div>
+    );
 }
 
-export default App
+export default App;
