@@ -18,7 +18,18 @@ app.get('/api/data', cors(corsOptions), (req, res) => {
         res.json(results);
     });
 });
-
+/*
+            All ToolTypes
+            All Locations
+            All Location Infromation
+            All renter infromation 
+*/
+app.get('/invetory', cors(corsOptions), (req, res) => {
+    db.query('SELECT * FROM Inventory', (error, results) => {
+        if (error) throw error;
+        res.json(results);
+    });
+});
 // Add more endpoints as needed
 
 const PORT = process.env.PORT || 3000;

@@ -11,3 +11,13 @@ export const fetchData = async () => {
         throw error;
     }
 };
+
+export const fetchInvetory = async () => {
+    try {
+        const response = await axios.get(`$http://localhost:5173/invetory`);
+        return response.data;
+    } catch (error) {
+        console.error('API call failed:', error);
+        throw error;
+    }
+};
