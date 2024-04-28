@@ -12,8 +12,22 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Fetch data example
-app.get('/api/data', cors(corsOptions), (req, res) => {
+app.get('/api/locations', cors(corsOptions), (req, res) => {
     db.query('SELECT * FROM pickupLocation', (error, results) => {
+        if (error) throw error;
+        res.json(results);
+    });
+});
+
+app.get('/api/inventory', cors(corsOptions), (req, res) => {
+    db.query('SELECT * FROM Inventory', (error, results) => {
+        if (error) throw error;
+        res.json(results);
+    });
+});
+
+app.get('/api/renters', cors(corsOptions), (req, res) => {
+    db.query('SELECT * FROM Renter', (error, results) => {
         if (error) throw error;
         res.json(results);
     });

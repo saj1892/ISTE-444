@@ -1,13 +1,36 @@
 import React, { useState } from 'react';
-import { fetchData } from './api';
+import { fetchInventory, fetchLocations, fetchRenters } from './api';
 
 function App() {
-    const [locations, setLocations] = useState([]);
 
-    const handleFetchData = async () => {
+    //LOCATIONS:
+    const [locations, setLocations] = useState([]);
+    const handleFetchLocations = async () => {
         try {
-            const data = await fetchData();
+            const data = await fetchLocations();
             setLocations(data); // Assuming data is an array of location objects
+        } catch (error) {
+            console.error('Failed to fetch data:', error);
+        }
+    };
+
+    //Inventory:
+    const [inventory, setInventory] = useState([]);
+    const handleFetchInventory = async () => {
+        try {
+            const data = await fetchInventory();
+            setInventory(data); // Assuming data is an array of inventory objects
+        } catch (error) {
+            console.error('Failed to fetch data:', error);
+        }
+    };
+    
+    //Renters:
+    const [renters, setRenters] = useState([]);
+    const handleFetchRenters = async () => {
+        try {
+            const data = await fetchRenters();
+            setRenters(data); // Assuming data is an array of renter objects
         } catch (error) {
             console.error('Failed to fetch data:', error);
         }
@@ -16,7 +39,7 @@ function App() {
     return (
         <div>
             <h1>React and Node.js Integration Example</h1>
-            <button onClick={handleFetchData}>Fetch Data</button>
+            <button onClick={handleFetchLocations}>Fetch Data</button>
             <div>
                 {locations.length > 0 ? (
                     locations.map((location, index) => (
