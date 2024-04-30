@@ -1,7 +1,7 @@
 import React from 'react';
 import NavBar from "./Navigation.jsx"
 // import SearchBar from './SearchBar.jsx'
-import {fetchData, fetchInvetory} from '../api.js';
+import { fetchInvetory} from '../api.js';
 import ItemDisplay from './ItemDisplay.jsx';
 
 export default class Homepage extends React.Component {
