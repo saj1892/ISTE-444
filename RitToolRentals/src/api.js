@@ -80,3 +80,13 @@ export const updateItem = async (itemID, itemData) => {
     }
 };
 
+export const deleteItem = async (itemID) => {
+    try {
+        const response = await axios.delete(`${API_URL}/api/inventory/${itemID}`);
+        return response.data;
+    } catch (error) {
+        console.error('API call failed:', error);
+        throw error;
+    }
+};
+

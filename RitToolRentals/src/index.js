@@ -124,6 +124,27 @@ app.put('/api/inventory/:itemID', (req, res) => {
     });
 });
 
+app.delete('/api/inventory/:itemID', (req, res) => {
+    const itemID = req.params.itemID;
+
+    // SQL query to delete the inventory item
+    const sql = 'DELETE FROM Inventory WHERE itemID = ?';
+
+    // Execute the SQL query
+    db.query(sql, [itemID], (error, results) => {
+        if (error) {
+            console.error('Failed to delete inventory item:', error);
+            res.status(500).send('Failed to delete inventory item.');
+        } else {
+            if (results.affectedRows > 0) {
+                res.send('Inventory item deleted successfully.');
+            } else {
+                res.status(404).send('Inventory item not found.');
+            }
+        }
+    });
+})
+
 // Add more endpoints as needed
 
 const PORT = process.env.PORT || 3000;
