@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { fetchInventory, fetchLocations, fetchRenters } from './api';
+import { fetchInventory, fetchLocations, fetchRenters, getRenterItems } from './api';
 
 function App() {
 
@@ -24,7 +24,7 @@ function App() {
             console.error('Failed to fetch data:', error);
         }
     };
-    
+
     //Renters:
     const [renters, setRenters] = useState([]);
     const handleFetchRenters = async () => {
@@ -36,6 +36,30 @@ function App() {
         }
     };
 
+    //get item
+    const handleFetchItem = async () => {
+      try {
+          const data = await getItem(itemID);
+          setItemDetails(data);
+          setError(''); // Clear any previous errors
+      } catch (error) {
+          console.error('Failed to fetch item:', error);
+          setError('Failed to fetch item');
+          setItemDetails(null); // Clear previous item details if present
+      }
+    };
+    //get item
+    const handleFetchRenterItems= async () => {
+      try {
+          const data = await getRenterItems(renterId);
+          setItemDetails(data);
+          setError(''); // Clear any previous errors
+      } catch (error) {
+          console.error('Failed to fetch items:', error);
+          setError('Failed to fetch item');
+          setItemDetails(null); // Clear previous item details if present
+      }
+    };
     return (
         <div>
             <h1>React and Node.js Integration Example</h1>
