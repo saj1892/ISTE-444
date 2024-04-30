@@ -23,24 +23,24 @@ export default class Homepage extends React.Component {
         };
     }//constructor
 
-    handleFetchData = async () => {
-        try {
-            //make new const for each endpoint you want to hit,
-            //then assign the var in state to the approporate response
-            const invetorydataresponse = await fetchInvetory();
-            this.setState({
-                Invetory: invetorydataresponse,
-            });
-        } catch (error) {
-            console.error('Failed to fetch data:', error);
-        }
-    };
+    // handleFetchData = async () => {
+    //     try {
+    //         //make new const for each endpoint you want to hit,
+    //         //then assign the var in state to the approporate response
+    //         const invetorydataresponse = await fetchInvetory();
+    //         this.setState({
+    //             Invetory: invetorydataresponse,
+    //         });
+    //     } catch (error) {
+    //         console.error('Failed to fetch data:', error);
+    //     }
+    // };
 
     async componentDidMount() {
         //getdata
         //get ToolTypes and send to SearchBar
         //get itemID,Name,ToolType,locationName,description,available,lendie,photo,Lender
-        this.handleFetchData();
+        // this.handleFetchData();
         this.state.loaded = true;
     }//componentDidMount
 

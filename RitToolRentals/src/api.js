@@ -34,10 +34,49 @@ export const fetchRenters = async () => {
 
 export const fetchInvetory = async () => {
     try {
-        const response = await axios.get(`$http://localhost:5173/invetory`);
+        const response = await axios.get(`${API_URL}/api/inventory`);
         return response.data;
     } catch (error) {
         console.error('API call failed:', error);
         throw error;
     }
 };
+export const addInventory = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/api/addItem`);
+        return response.data;
+    } catch (error) {
+        console.error('API call failed:', error);
+        throw error;
+    }
+};
+export const getItem = async (itemID) => {
+    try {
+        const response = await axios.get(`${API_URL}/api/inventory/${itemID}`);
+        return response.data;
+    } catch (error) {
+        console.error('API call failed:', error);
+        throw error;
+    }
+};
+
+export const getRenterItems = async (lender) => {
+    try {
+        const response = await axios.get(`${API_URL}/api/lenderInventory/${lender}`);
+        return response.data;
+    } catch (error) {
+        console.error('API call failed:', error);
+        throw error;
+    }
+};
+
+export const updateItem = async (itemID, itemData) => {
+    try {
+        const response = await axios.put(`${API_URL}/api/inventory/${itemID}`, itemData);
+        return response.data;
+    } catch (error) {
+        console.error('API call failed:', error);
+        throw error;
+    }
+};
+
