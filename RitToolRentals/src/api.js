@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5173'; // Change this according to your Node.js server's configuration
+const API_URL = 'http://172.16.1.70:3000';
 
 export const fetchLocations = async () => {
     try {
@@ -32,6 +32,16 @@ export const fetchRenters = async () => {
     }
 };
 
+export const fetchToolTypes = async () => {
+    try{
+        const response = await axios.get(`${API_URL}/api/toolTypes`);
+        return response.data;
+    }catch(error){
+        console.error("API call failed", error);
+        throw error;
+    }
+};
+
 export const fetchInvetory = async () => {
     try {
         const response = await axios.get(`${API_URL}/api/inventory`);
@@ -41,9 +51,9 @@ export const fetchInvetory = async () => {
         throw error;
     }
 };
-export const addInventory = async () => {
+export const addInventory = async (itemData) => {
     try {
-        const response = await axios.get(`${API_URL}/api/addItem`);
+        const response = await axios.post(`${API_URL}/api/addItem`, itemData);
         return response.data;
     } catch (error) {
         console.error('API call failed:', error);

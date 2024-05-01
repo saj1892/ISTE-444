@@ -5,12 +5,11 @@ import reactLogo from '../assets/react.svg';
 const NavBar = () => {
   return (
     <>
-        <img src={reactLogo} className="logo react" alt="React logo" />
         <button>
             <Link to="/Home">Home</Link>
         </button>
         <button>
-            <Link to="/Mylistings">My Listings</Link>
+            <Link to="/Mylistings">Create Listing</Link>
         </button>
         <button>
             <Link to="/">Sign out</Link>

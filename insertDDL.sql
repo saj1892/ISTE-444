@@ -22,3 +22,11 @@ INSERT INTO Inventory (Name, ToolType, locationName, description, available, len
 ('Pliers', 'Hand Tools', 'Elm Street Depot', 'Pincers with parallel, flat, and typically serrated surfaces, used for gripping small objects or bending wire.', true, NULL, 'Nina Teal', 'https://m.media-amazon.com/images/I/71FSIonNe3L.jpg'),
 ('3D Printer', 'Electronic Device', 'Maple Drive Center', 'A printer that can produce three-dimensional objects.', true, NULL, 'Oscar Lime', 'https://m.media-amazon.com/images/I/61L4aoIqYOL._AC_UF894,1000_QL80_DpWeblab_.jpg'),
 ('Face Shield', 'PPE', 'Oak Avenue Spot', 'Protects the wearer\'s entire face from hazards such as flying objects and road debris, chemical splashes, or potentially infectious materials.', true, NULL, 'Pat Silver', 'https://mobileimages.lowes.com/productimages/b02e8d8a-4206-4fc4-86e1-cd5d7de7a623/64035458.jpg');
+
+
+INSERT INTO users (username, password) VALUES 
+('alice123', 'password123'),
+('bob456', 'password456'),
+('charlie789', 'password789'),
+('david001', 'password001'),
+('eve002', 'password002');

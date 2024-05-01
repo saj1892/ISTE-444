@@ -1,115 +1,132 @@
 import React from 'react';
-import NavBar from "./Navigation.jsx"
-// import SearchBar from './SearchBar.jsx'
-import { fetchInvetory} from '../api.js';
-import ItemDisplay from './ItemDisplay.jsx';
+import NavBar from "./Navigation.jsx";
+import { fetchInventory, fetchToolTypes, fetchLocations, deleteItem } from '../api.js';
+import { Link } from "react-router-dom";
+import './Homepage.css';
 
 export default class Homepage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            //to populate the dropDown menu in the searchBar
-            SearchBarToolTypes: ["Hammer","Screwdriver","3D printer","PPE","Firearms"],
-            //hardcoded lavid pickup locations
-            SearchBarlocations: ["A","B","C"],
-            //to store the currently selected location from the SearchBar
+            SearchBarToolTypes: [],
+            SearchBarlocations: [],
             selectedLocation: "A",
-            //to store the currently selected ToolType from the searchBar
-            selectedToolType: null,
-            //store all Invetory Data
-            Invetory: [],
-            //will tell the display to not load until the data is gotten
+            selectedToolType: "Hand Tools",
+            Inventory: [],
             loaded: false,
+            itemDisplayShown: false, // Added variable to track if ItemDisplay has been displayed
+            selectedItemID: null, // Store the selected item ID in state
         };
-    }//constructor
-
-    // handleFetchData = async () => {
-    //     try {
-    //         //make new const for each endpoint you want to hit,
-    //         //then assign the var in state to the approporate response
-    //         const invetorydataresponse = await fetchInvetory();
-    //         this.setState({
-    //             Invetory: invetorydataresponse,
-    //         });
-    //     } catch (error) {
-    //         console.error('Failed to fetch data:', error);
-    //     }
-    // };
-
+    }
+ 
     async componentDidMount() {
-        //getdata
-        //get ToolTypes and send to SearchBar
-        //get itemID,Name,ToolType,locationName,description,available,lendie,photo,Lender
-        // this.handleFetchData();
-        this.state.loaded = true;
-    }//componentDidMount
+        console.log("component did mount hit");
+        try {
+            const inventoryDataResponse = await fetchInventory();
+            const toolTypes = await fetchToolTypes();
+            const locations = await fetchLocations();
+            this.setState({
+                Inventory: inventoryDataResponse,
+                SearchBarToolTypes: toolTypes,
+                SearchBarlocations: locations,
+                selectedLocation: locations[2].locationName,
+                loaded: true,
+            });
+        } catch (error) {
+            console.error('Failed to fetch data:', error);
+        }
+    }
 
     handleLocationChange = (location) => {
         this.setState({ selectedLocation: location });
-    }//handleLocationChange
+    }
 
     handleToolTypeChange = (toolType) => {
         this.setState({ selectedToolType: toolType });
-    }//handleToolTypeChange
+    }
+
+    handleRentClick = (itemID) => {
+        // Set the item ID in localStorage and navigate to "/Rent"
+        localStorage.setItem("itemID", itemID);
+        // Navigate to "/Rent"
+        this.props.history.push("/Rent");
+    }
+
+    handleDelete = async (itemID,name) => {
+        const deleteResponse = await deleteItem(itemID);
+        alert("deleted item " + name + " with response of " + deleteResponse);
+    }
+
+    handleSearch = async () => {
+        try {
+            const inventoryDataResponse = await fetchInventory();
+            this.setState({
+                Inventory: inventoryDataResponse,
+                itemDisplayShown: true, // Setting itemDisplayShown to true when search is clicked
+            });
+            // console.log(this.state.Inventory);
+        } catch (error) {
+            console.error('Failed to fetch data:', error);
+        }
+    }
 
     render() {
-        const {selectedToolType, SearchBarToolTypes} = this.state;
-        if(this.state.loaded){
+        const { selectedToolType, SearchBarToolTypes, SearchBarlocations, Inventory, loaded, itemDisplayShown, selectedLocation } = this.state;
+        if (loaded) {
             return (
                 <>
                     <NavBar />
-                    
+                    <div>
                         <div>
-                            <div>
                             <label htmlFor="location">Location:</label>
-                            <button onClick={() => this.handleLocationChange('A')}>A</button>
-                            <button onClick={() => this.handleLocationChange('B')}>B</button>
-                            <button onClick={() => this.handleLocationChange('C')}>C</button>
-                            </div>
-                            <div>
-                            <label htmlFor="ToolType">Tool Type:</label>
+                            {
+                                SearchBarlocations.map((location, index) => (
+                                    <button key={index} onClick={() => this.handleLocationChange(location.locationName)}>{location.locationName}</button>
+                                ))
+                            } 
+                        </div>
+                        <div>
+                            <label htmlFor="toolType">Tool Type:</label>
                             <select
-                                id="location"
+                                id="toolType"
                                 value={selectedToolType}
-                                onChange={(e) => this.handleLocationChange(e.target.value)}
+                                onChange={(e) => this.handleToolTypeChange(e.target.value)}
                             >
                                 {SearchBarToolTypes.map((toolType, index) => (
-                                    <option key={index} value={toolType}>{toolType}</option>
+                                    <option key={index} value={toolType.ToolType}>{toolType.ToolType}</option>
                                 ))}
                             </select>
-                            </div>
                         </div>
                         <div>
-                            {
-                                this.state.Invetory.map((invetory, index) =>{
-                                    <div key={index}>
-                                        <ItemDisplay
-                                            itemId={invetory.itemId}
-                                            name={invetory.name}
-                                            toolType={invetory.toolType}
-                                            locationName={invetory.locationName}
-                                            description={invetory.description}
-                                            available={invetory.available}
-                                            lendie={invetory.lendie}
-                                            photo={invetory.photo}
-                                            lender={invetory.lender}
-                                            selectedLocation={this.state.selectedLocation}
-                                            selectedToolType={this.state.selectedToolType}
-                                        />
-                                    </div>
-                                })
-                            }
+                            <button onClick={this.handleSearch}>Search</button>
                         </div>
+                    </div>
+                    <div>
+                        {itemDisplayShown && Inventory.map((item, index) => {
+                            if (item.locationName === selectedLocation && item.ToolType === selectedToolType) {
+                                return (
+                                    <div key={index} style={{ border: '1px solid #ccc', borderRadius: '5px', padding: '10px', margin: '10px', maxWidth: '400px' }}>
+                                        <img src={item.photo} alt={item.Name} style={{ maxWidth: '100%' }} />
+                                        <h2>{item.name}</h2>
+                                        <p><strong>Item ID:</strong> {item.itemID}</p>
+                                        <p><strong>Tool Type:</strong> {item.ToolType}</p>
+                                        <p><strong>Location:</strong> {item.locationName}</p>
+                                        <p><strong>Description:</strong> {item.description}</p>
+                                        <p><strong>Lender:</strong> {item.lender}</p>
+                                        <p><strong>Lendie:</strong> {item.lendie}</p>
+                                        <Link class = "orange link" to="/Rent" onClick={() => this.handleRentClick(item.itemID)}>Rent</Link>
+                                        <button class = "delete-button" onClick={() => this.handleDelete(item.itemID, item.Name)}>Delete</button>
+                                    </div>
+                                );
+                            } else {
+                                return null; // Don't render if conditions are not met
+                            }
+                        })}
+                    </div>
                 </>
             );
-        }else{
-            return(
-                <>
-                    <h2>Loading data . . . </h2>
-                </>
-            );
+        } else {
+            return <><h2>Loading. . . .</h2></>;
         }
-        
-    }//render
-    
-};//Homepage
+    }    
+}

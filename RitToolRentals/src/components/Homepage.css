@@ -1,0 +1,87 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fff3e0; /* Light orange background */
+    color: #333;
+}
+
+/* NavBar placeholder for styling */
+nav {
+    background-color: #ff9800; /* Medium orange */
+    padding: 10px 20px;
+    color: white;
+}
+
+/* Container for tool selection and search button */
+div {
+    margin: 10px;
+    padding: 10px;
+}
+
+/* Labels styling */
+label {
+    display: block;
+    margin: 10px 0 5px;
+    color: #f57c00; /* Darker orange for text */
+}
+
+/* Input fields and select boxes */
+input[type="button"], select, button {
+    background-color: #ff9800; /* Medium orange */
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+input[type="button"]:hover, button:hover {
+    background-color: #e65100; /* Darker orange */
+}
+
+/* Link styling inside item listings */
+a {
+    color: white; 
+    text-decoration: none;
+}
+.orange{
+    color: #ff5722; /* Deep orange */
+}
+
+
+.item {
+    border: 1px solid #ffa726; 
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #ffe0b2; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.item:hover {
+    transform: translateY(-5px);
+}
+
+
+img {
+    max-width: 100%;
+    display: block;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.link, .delete-button {
+    margin: 5px 50px; 
+}
+
+.delete-button {
+    background-color: #ff5722; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background-color: #d84315; /* Darker deep orange */
+}
